@@ -1,0 +1,31 @@
+body.dark-mode {
+    /*Dark Mode*/
+    background-color: #36393f;
+    color: white;
+    -webkit-transition: background-color .15s ease-in-out;
+    -ms-transition: background-color .15s ease-in-out;
+    transition: background-color .15s ease-in-out;
+}
+
+.custom-font {
+    font-family: 'Roboto', sans-serif;
+}
+
+.map-area {
+    stroke: lightgray;
+    stroke-width: 1px;
+}
+.map-area:hover {
+    stroke: darkgray;
+    stroke-width: 2px;
+}
+
+#tooltip {
+    background-color: lightgray;
+    color: black;
+    border: 1px solid;
+    border-radius: 2px;
+    padding: 5px;
+    position: absolute;
+    opacity: 0;
+}
