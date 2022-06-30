@@ -181,6 +181,7 @@ async function onLoad() {
     const svg = d3.select('#dataChart')
         .append('svg')
         .attr('viewBox', [0, 0, viewBoxWidth, viewBoxHeight]);
+    const svgDefs = svg.append('defs');
     const tooltip = d3.select('#tooltip');
     const tooltipAreaName = tooltip.select('#tooltipAreaName');
     const tooltipPopulation = tooltip.select('#tooltipPopulation');
@@ -234,4 +235,56 @@ async function onLoad() {
                 .style('left', null)
                 .style('top', null);
         })
+
+
+
+    // Legend
+    const svgDefLinearGradientLegend = svgDefs.append('linearGradient')
+        .attr('id', 'legendGradient')
+        .attr('x1', '0%').attr('y1', '0%')
+        .attr('x2', '0%').attr('y2', '100%');
+    svgDefLinearGradientLegend.append('stop')
+        .attr('offset', '0%')
+        .attr('stop-color', colourScale(0))
+        .attr('stop-opacity', 1);
+    svgDefLinearGradientLegend.append('stop')
+        .attr('offset', '100%')
+        .attr('stop-color', colourScale(highestPopulation))
+        .attr('stop-opacity', 1);
+
+    const legendWidth = 25
+    const legendHeight = 150
+    const legendMarginX = 20
+    const legendMarginY = 20
+
+    const legendTitleHeight = 10
+    const legendInterMarginX = 5
+    const legendInterMarginY = 5
+
+    const svgLegend = svg.append('g')
+        .attr('id', 'legend')
+        .attr('transform', `translate(${legendMarginX}, ${legendMarginY})`);
+
+    svgLegend.append('text')
+        .attr('id', 'legendTitle')
+        .attr('class', 'legend-title')
+        .text('Population');
+
+    const svgLegendColour = svgLegend.append('rect')
+        .attr('id', 'legendColour')
+        .attr('width', legendWidth)
+        .attr('height', legendHeight)
+        .attr('y', legendTitleHeight + legendInterMarginY)
+        .attr('fill', 'url(#legendGradient)');
+
+    const legendAxis = d3.axisRight()
+        .scale(d3.scaleLinear()
+            .domain([0, highestPopulation])
+            .range([0, legendHeight]))
+        .tickSize(6)
+        .ticks(8);
+    svgLegend.append('g')
+        .attr('id', 'legendAxis')
+        .attr('transform', `translate(${legendWidth + legendInterMarginX}, ${legendTitleHeight + legendInterMarginY})`)
+        .call(legendAxis);
 }

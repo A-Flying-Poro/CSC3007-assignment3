@@ -30,3 +30,12 @@ body.dark-mode {
     position: absolute;
     opacity: 0;
 }
+
+#legendTitle {
+    fill: white;
+    font-size: large;
+}
+
+#legendColour {
+    border: 1px solid black;
+}
