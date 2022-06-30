@@ -211,6 +211,7 @@ async function onLoad() {
         .data(mapJson.features)
         .enter()
         .append('path')
+        .attr('class', 'map-area')
         .attr('d', geoPath)
         .attr('fill', (data) => {
             data.population = populationMap.has(data.properties.Name) ? populationMap.get(data.properties.Name) : 0;
