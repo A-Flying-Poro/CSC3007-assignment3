@@ -181,6 +181,9 @@ async function onLoad() {
     const svg = d3.select('#dataChart')
         .append('svg')
         .attr('viewBox', [0, 0, viewBoxWidth, viewBoxHeight]);
+    const tooltip = d3.select('#tooltip');
+    const tooltipAreaName = tooltip.select('#tooltipAreaName');
+    const tooltipPopulation = tooltip.select('#tooltipPopulation');
 
     const [mapJson, populationData] = await Promise.all([
         d3.json('./data/sgmap.json'),
@@ -203,7 +206,6 @@ async function onLoad() {
     /** @type {Map<string, number>} */
     const populationMap = populationData.reduce((previousResult, currentValue) => previousResult.set(currentValue.subzone.toUpperCase(), currentValue.population),
         new Map());
-    console.log(populationMap)
 
     svg.append('g')
         .attr('id', 'districts')
@@ -216,5 +218,20 @@ async function onLoad() {
         .attr('fill', (data) => {
             data.population = populationMap.has(data.properties.Name) ? populationMap.get(data.properties.Name) : 0;
             return colourScale(data.population);
+        })
+        .on('mouseover', (event, data) => {
+            tooltipAreaName.text(data.properties.Name);
+            tooltipPopulation.text(data.population.toLocaleString());
+            tooltip.style('opacity', 1);
+        })
+        .on('mousemove', (event, data) => {
+            tooltip
+                .style('left', `${event.pageX + 20}px`)
+                .style('top', `${event.pageY - 20}px`)
+        })
+        .on('mouseleave', (event, data) => {
+            tooltip.style('opacity', 0)
+                .style('left', null)
+                .style('top', null);
         })
 }

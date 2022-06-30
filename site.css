@@ -14,7 +14,7 @@ body.dark-mode {
 .map-area {
     stroke: lightgray;
     stroke-width: 1px;
-    transition-duration: 0.3s;
+    transition-duration: 0.2s;
 }
 .map-area:hover {
     stroke: black;
